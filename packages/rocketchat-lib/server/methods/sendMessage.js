@@ -62,7 +62,7 @@ Meteor.methods({
 			throw new Meteor.Error('You can\'t send messages because you are blocked');
 		}
 
-		if ((room.muted || []).includes(user.username)) {
+		if ((room.muted || []).includes(user.username) && !RocketChat.authz.hasPermission(user._id, 'post-readonly')) {
 			RocketChat.Notifications.notifyUser(Meteor.userId(), 'message', {
 				_id: Random.id(),
 				rid: room._id,
